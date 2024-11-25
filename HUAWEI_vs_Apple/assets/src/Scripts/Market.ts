@@ -3,10 +3,10 @@
 import { Player } from './Player';
 
 export class Market {
-    name: string;                   // ÊĞ³¡Ãû³Æ
-    initialExpectation: number;     // ³õÊ¼ÊĞ³¡ÆÚ´ıÖµ
-    currentExpectation: number;     // µ±Ç°ÊĞ³¡ÆÚ´ıÖµ
-    owner: Player | null;           // µ±Ç°ÊĞ³¡¿ØÖÆÕß
+    name: string;                   // å¸‚åœºåç§°
+    initialExpectation: number;     // åˆå§‹å¸‚åœºæœŸå¾…å€¼
+    currentExpectation: number;     // å½“å‰å¸‚åœºæœŸå¾…å€¼
+    owner: Player | null;           // å½“å‰å¸‚åœºæ§åˆ¶è€…
 
     constructor(name: string, initialExpectation: number) {
         this.name = name;
@@ -15,32 +15,32 @@ export class Market {
         this.owner = null;
     }
 
-    // ¼õÉÙÊĞ³¡ÆÚ´ıÖµ
+    // å‡å°‘å¸‚åœºæœŸå¾…å€¼
     reduceExpectation(amount: number) {
         this.currentExpectation = Math.max(0, this.currentExpectation - amount);
-        console.log(`${this.name} ÊĞ³¡µÄÆÚ´ıÖµ¼õÉÙÁË ${amount} µã£¬µ±Ç°ÆÚ´ıÖµÎª ${this.currentExpectation}`);
+        console.log(`${this.name} å¸‚åœºçš„æœŸå¾…å€¼å‡å°‘äº† ${amount} ç‚¹ï¼Œå½“å‰æœŸå¾…å€¼ä¸º ${this.currentExpectation}`);
     }
 
-    // ¼ì²éÊĞ³¡ÊÇ·ñ±»Õ¼Áì
+    // æ£€æŸ¥å¸‚åœºæ˜¯å¦è¢«å é¢†
     isConquered(): boolean {
         return this.currentExpectation <= 0;
     }
 
-    // ±ä¸üÊĞ³¡¿ØÖÆÕß
+    // å˜æ›´å¸‚åœºæ§åˆ¶è€…
     changeOwner(newOwner: Player) {
         this.owner = newOwner;
-        console.log(`${newOwner.name} Õ¼ÁìÁËÊĞ³¡ ${this.name}`);
+        console.log(`${newOwner.name} å é¢†äº†å¸‚åœº ${this.name}`);
     }
 
-    // ÖØÖÃÊĞ³¡×´Ì¬
+    // é‡ç½®å¸‚åœºçŠ¶æ€
     resetMarket() {
         this.currentExpectation = this.initialExpectation;
         this.owner = null;
-        console.log(`${this.name} ÊĞ³¡ÒÑ±»ÖØÖÃ`);
+        console.log(`${this.name} å¸‚åœºå·²è¢«é‡ç½®`);
     }
 
-    // ÏÔÊ¾ÊĞ³¡ĞÅÏ¢
+    // æ˜¾ç¤ºå¸‚åœºä¿¡æ¯
     toString(): string {
-        return `${this.name} - ÆÚ´ıÖµ: ${this.currentExpectation}/${this.initialExpectation}, ¿ØÖÆÕß: ${this.owner ? this.owner.name : "ÎŞ"}`;
+        return `${this.name} - æœŸå¾…å€¼: ${this.currentExpectation}/${this.initialExpectation}, æ§åˆ¶è€…: ${this.owner ? this.owner.name : "æ— "}`;
     }
 }

@@ -1,14 +1,14 @@
 // src/Card.ts
 
-// ¶¨Òå¿¨ÅÆµÄ»ù´¡Àà
+// å®šä¹‰å¡ç‰Œçš„åŸºç¡€ç±»
 export class Card {
     name: string;
-    marketAttraction: number; // ÊĞ³¡ÎüÒıÁ¦
-    userRetention: number;    // ÓÃ»§Õ³ĞÔ
-    hasTaunt: boolean;        // ÊÇ·ñÓĞ³°·íĞ§¹û
-    hasResilience: boolean;   // ÊÇ·ñÓĞ¼áÈÍĞ§¹û
-    hasDeflect: boolean;      // ÊÇ·ñÓĞµÖÓùĞ§¹û
-    hasPollenSupport: boolean; // ÊÇ·ñÓĞ»¨·ÛÖ§³Ö
+    marketAttraction: number; // å¸‚åœºå¸å¼•åŠ›
+    userRetention: number;    // ç”¨æˆ·ç²˜æ€§
+    hasTaunt: boolean;        // æ˜¯å¦æœ‰å˜²è®½æ•ˆæœ
+    hasResilience: boolean;   // æ˜¯å¦æœ‰åšéŸ§æ•ˆæœ
+    hasDeflect: boolean;      // æ˜¯å¦æœ‰æŠµå¾¡æ•ˆæœ
+    hasPollenSupport: boolean; // æ˜¯å¦æœ‰èŠ±ç²‰æ”¯æŒ
 
     constructor(
         name: string,
@@ -28,53 +28,53 @@ export class Card {
         this.hasPollenSupport = hasPollenSupport;
     }
 
-    // ¼õÉÙÓÃ»§Õ³ĞÔµÄ·½·¨
+    // å‡å°‘ç”¨æˆ·ç²˜æ€§çš„æ–¹æ³•
     reduceUserRetention(amount: number) {
         if (this.hasResilience) {
-            // Èç¹ûÓĞ¼áÈÍĞ§¹û£¬ÔòÃ¿´Î¼õÉÙµÄÓÃ»§Õ³ĞÔ¼õ°ë£¬ÖÁÉÙÎª1
+            // å¦‚æœæœ‰åšéŸ§æ•ˆæœï¼Œåˆ™æ¯æ¬¡å‡å°‘çš„ç”¨æˆ·ç²˜æ€§å‡åŠï¼Œè‡³å°‘ä¸º1
             amount = Math.max(1, Math.floor(amount / 2));
         }
         this.userRetention = Math.max(0, this.userRetention - amount);
     }
 
-    // ÅĞ¶Ï¿¨ÅÆÊÇ·ñ±»ÆÆ»µ
+    // åˆ¤æ–­å¡ç‰Œæ˜¯å¦è¢«ç ´å
     isDestroyed(): boolean {
         return this.userRetention <= 0 && this.marketAttraction <= 0;
     }
 
-    // »¨·ÛÖ§³ÖĞ§¹û´¦Àí
+    // èŠ±ç²‰æ”¯æŒæ•ˆæœå¤„ç†
     handlePollenSupport() {
         if (this.hasPollenSupport && this.userRetention <= 0) {
-            // µ±ÓÃ»§Õ³ĞÔ½µµ½0Ê±£¬Ê¹ÓÃÎüÒıÁ¦´úÎª¿Û³ı
+            // å½“ç”¨æˆ·ç²˜æ€§é™åˆ°0æ—¶ï¼Œä½¿ç”¨å¸å¼•åŠ›ä»£ä¸ºæ‰£é™¤
             const reduction = Math.min(1, this.marketAttraction);
             this.marketAttraction -= reduction;
             console.log(
-                `${this.name} ´¥·¢ÁË»¨·ÛÖ§³Ö£¬ÎüÒıÁ¦¼õÉÙ ${reduction} µã£¬µ±Ç°ÎüÒıÁ¦Îª ${this.marketAttraction}`
+                `${this.name} è§¦å‘äº†èŠ±ç²‰æ”¯æŒï¼Œå¸å¼•åŠ›å‡å°‘ ${reduction} ç‚¹ï¼Œå½“å‰å¸å¼•åŠ›ä¸º ${this.marketAttraction}`
             );
         }
     }
 
-    // µÖÓùĞ§¹û´¦Àí
+    // æŠµå¾¡æ•ˆæœå¤„ç†
     handleDeflect() {
         if (this.hasDeflect && this.userRetention <= 0) {
-            // Èç¹û¿¨ÅÆÓĞµÖÓùĞ§¹û£¬ÓÃ»§Õ³ĞÔÖØÖÃÎª1£¬²¢ÃâÒßÏÂÒ»´Î¹¥»÷
+            // å¦‚æœå¡ç‰Œæœ‰æŠµå¾¡æ•ˆæœï¼Œç”¨æˆ·ç²˜æ€§é‡ç½®ä¸º1ï¼Œå¹¶å…ç–«ä¸‹ä¸€æ¬¡æ”»å‡»
             this.userRetention = 1;
-            this.hasDeflect = false; // µÖÓùĞ§¹ûÖ»ÄÜ´¥·¢Ò»´Î
-            console.log(`${this.name} ´¥·¢ÁËµÖÓùĞ§¹û£¬ÓÃ»§Õ³ĞÔÖØÖÃÎª 1`);
+            this.hasDeflect = false; // æŠµå¾¡æ•ˆæœåªèƒ½è§¦å‘ä¸€æ¬¡
+            console.log(`${this.name} è§¦å‘äº†æŠµå¾¡æ•ˆæœï¼Œç”¨æˆ·ç²˜æ€§é‡ç½®ä¸º 1`);
         }
     }
 
-    // ¸üĞÂ¿¨ÅÆ×´Ì¬
+    // æ›´æ–°å¡ç‰ŒçŠ¶æ€
     updateCardStatus() {
-        // ´¦Àí»¨·ÛÖ§³ÖĞ§¹û
+        // å¤„ç†èŠ±ç²‰æ”¯æŒæ•ˆæœ
         this.handlePollenSupport();
 
-        // ´¦ÀíµÖÓùĞ§¹û
+        // å¤„ç†æŠµå¾¡æ•ˆæœ
         this.handleDeflect();
     }
 
-    // ÏÔÊ¾¿¨ÅÆĞÅÏ¢µÄ·½·¨
+    // æ˜¾ç¤ºå¡ç‰Œä¿¡æ¯çš„æ–¹æ³•
     toString(): string {
-        return `${this.name} - ÎüÒıÁ¦: ${this.marketAttraction}, Õ³ĞÔ: ${this.userRetention}, ³°·í: ${this.hasTaunt ? "ÊÇ" : "·ñ"}, ¼áÈÍ: ${this.hasResilience ? "ÊÇ" : "·ñ"}, µÖÓù: ${this.hasDeflect ? "ÊÇ" : "·ñ"}, »¨·ÛÖ§³Ö: ${this.hasPollenSupport ? "ÊÇ" : "·ñ"}`;
+        return `${this.name} - å¸å¼•åŠ›: ${this.marketAttraction}, ç²˜æ€§: ${this.userRetention}, å˜²è®½: ${this.hasTaunt ? "æ˜¯" : "å¦"}, åšéŸ§: ${this.hasResilience ? "æ˜¯" : "å¦"}, æŠµå¾¡: ${this.hasDeflect ? "æ˜¯" : "å¦"}, èŠ±ç²‰æ”¯æŒ: ${this.hasPollenSupport ? "æ˜¯" : "å¦"}`;
     }
 }

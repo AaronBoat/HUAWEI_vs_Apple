@@ -5,112 +5,112 @@ import { Market } from './Market';
 import { Card } from './Card';
 
 export class Game {
-    players: Player[];             // Íæ¼ÒÊı×é
-    markets: Market[];             // ÊĞ³¡Êı×é
-    currentPlayerIndex: number;    // µ±Ç°Íæ¼ÒË÷Òı
+    players: Player[];             // ç©å®¶æ•°ç»„
+    markets: Market[];             // å¸‚åœºæ•°ç»„
+    currentPlayerIndex: number;    // å½“å‰ç©å®¶ç´¢å¼•
 
     constructor(players: Player[], markets: Market[]) {
         this.players = players;
         this.markets = markets;
-        this.currentPlayerIndex = 0; // ³õÊ¼»¯ÎªµÚÒ»¸öÍæ¼Ò
+        this.currentPlayerIndex = 0; // åˆå§‹åŒ–ä¸ºç¬¬ä¸€ä¸ªç©å®¶
     }
 
-    // ÇĞ»»µ½ÏÂÒ»¸öÍæ¼Ò
+    // åˆ‡æ¢åˆ°ä¸‹ä¸€ä¸ªç©å®¶
     switchPlayer() {
         this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.length;
-        console.log(`ÏÖÔÚÂÖµ½ ${this.players[this.currentPlayerIndex].name} µÄ»ØºÏ`);
+        console.log(`ç°åœ¨è½®åˆ° ${this.players[this.currentPlayerIndex].name} çš„å›åˆ`);
     }
 
-    // µ±Ç°Íæ¼Ò½øĞĞ¹¥»÷²Ù×÷
+    // å½“å‰ç©å®¶è¿›è¡Œæ”»å‡»æ“ä½œ
     attackMarket(player: Player, market: Market, cardIndex: number) {
         const card = player.market[cardIndex];
 
         if (market.isConquered()) {
-            console.log(`${market.name} ÒÑ¾­±»Õ¼Áì£¬ÎŞ·¨ÔÙ¹¥»÷`);
+            console.log(`${market.name} å·²ç»è¢«å é¢†ï¼Œæ— æ³•å†æ”»å‡»`);
             return;
         }
 
-        // Èç¹ûÊĞ³¡ÓĞ¿ØÖÆÕßÇÒ¿ØÖÆÕß²»ÊÇµ±Ç°Íæ¼Ò£¬¹¥»÷¿ØÖÆÕßµÄ¿¨ÅÆ
+        // å¦‚æœå¸‚åœºæœ‰æ§åˆ¶è€…ä¸”æ§åˆ¶è€…ä¸æ˜¯å½“å‰ç©å®¶ï¼Œæ”»å‡»æ§åˆ¶è€…çš„å¡ç‰Œ
         const marketOwner = market.owner;
         if (marketOwner && marketOwner !== player) {
             const tauntCards = marketOwner.market.filter(c => c.hasTaunt);
             let targetCard: Card | null = null;
 
             if (tauntCards.length > 0) {
-                // Èç¹ûÓĞ³°·í¿¨£¬Ôò±ØĞëÓÅÏÈ¹¥»÷³°·í¿¨
+                // å¦‚æœæœ‰å˜²è®½å¡ï¼Œåˆ™å¿…é¡»ä¼˜å…ˆæ”»å‡»å˜²è®½å¡
                 targetCard = tauntCards[0];
             } else {
-                // ·ñÔò¹¥»÷¶Ô·½µÄÒ»ÕÅËæ»ú¿¨
+                // å¦åˆ™æ”»å‡»å¯¹æ–¹çš„ä¸€å¼ éšæœºå¡
                 targetCard = marketOwner.market[Math.floor(Math.random() * marketOwner.market.length)];
             }
 
             if (targetCard) {
                 targetCard.reduceUserRetention(card.marketAttraction);
-                console.log(`${player.name} µÄ ${card.name} ¹¥»÷ÁË ${marketOwner.name} µÄ ${targetCard.name}`);
+                console.log(`${player.name} çš„ ${card.name} æ”»å‡»äº† ${marketOwner.name} çš„ ${targetCard.name}`);
                 targetCard.updateCardStatus();
 
-                // ¼ì²é¿¨ÅÆÊÇ·ñ±»ÆÆ»µ
+                // æ£€æŸ¥å¡ç‰Œæ˜¯å¦è¢«ç ´å
                 marketOwner.removeDestroyedCards();
             }
         } else {
-            // Èç¹ûÊĞ³¡Ã»ÓĞ¿ØÖÆÕß»òÕß¿ØÖÆÕßÊÇµ±Ç°Íæ¼Ò£¬Ö±½ÓÏ÷ÈõÊĞ³¡ÆÚ´ıÖµ
+            // å¦‚æœå¸‚åœºæ²¡æœ‰æ§åˆ¶è€…æˆ–è€…æ§åˆ¶è€…æ˜¯å½“å‰ç©å®¶ï¼Œç›´æ¥å‰Šå¼±å¸‚åœºæœŸå¾…å€¼
             market.reduceExpectation(card.marketAttraction);
-            console.log(`${player.name} µÄ ${card.name} ¹¥»÷ÁËÊĞ³¡ ${market.name}£¬¼õÉÙÁË ${card.marketAttraction} µãÆÚ´ıÖµ`);
+            console.log(`${player.name} çš„ ${card.name} æ”»å‡»äº†å¸‚åœº ${market.name}ï¼Œå‡å°‘äº† ${card.marketAttraction} ç‚¹æœŸå¾…å€¼`);
         }
 
-        // ¼ì²éÊĞ³¡ÊÇ·ñ±»Õ¼Áì
+        // æ£€æŸ¥å¸‚åœºæ˜¯å¦è¢«å é¢†
         if (market.isConquered()) {
             market.changeOwner(player);
         }
     }
 
-    // Ö´ĞĞÍæ¼ÒµÄÒ»¸ö»ØºÏ
+    // æ‰§è¡Œç©å®¶çš„ä¸€ä¸ªå›åˆ
     playTurn() {
         const currentPlayer = this.players[this.currentPlayerIndex];
-        const currentMarket = this.markets[0]; // ¼ò»¯ÎªÖ»¿¼ÂÇÒ»¸öÊĞ³¡
+        const currentMarket = this.markets[0]; // ç®€åŒ–ä¸ºåªè€ƒè™‘ä¸€ä¸ªå¸‚åœº
 
-        console.log(`ÂÖµ½ ${currentPlayer.name} µÄ»ØºÏ`);
+        console.log(`è½®åˆ° ${currentPlayer.name} çš„å›åˆ`);
 
-        // Ê¾Àı£ºÈç¹ûÊÖÅÆÖĞÓĞ¿¨ÅÆ£¬´ò³öµÚÒ»ÕÅ¿¨ÅÆ
+        // ç¤ºä¾‹ï¼šå¦‚æœæ‰‹ç‰Œä¸­æœ‰å¡ç‰Œï¼Œæ‰“å‡ºç¬¬ä¸€å¼ å¡ç‰Œ
         if (currentPlayer.hand.length > 0) {
             currentPlayer.playCard(0);
         }
 
-        // Ö´ĞĞÒ»´ÎÊĞ³¡¹¥»÷£¨Èç¹ûÊĞ³¡ÖĞÓĞ¿¨ÅÆ£©
+        // æ‰§è¡Œä¸€æ¬¡å¸‚åœºæ”»å‡»ï¼ˆå¦‚æœå¸‚åœºä¸­æœ‰å¡ç‰Œï¼‰
         if (currentPlayer.market.length > 0) {
             this.attackMarket(currentPlayer, currentMarket, 0);
         }
 
-        // ÇĞ»»µ½ÏÂÒ»¸öÍæ¼Ò
+        // åˆ‡æ¢åˆ°ä¸‹ä¸€ä¸ªç©å®¶
         this.switchPlayer();
     }
 
-    // ¼ì²éÓÎÏ·ÊÇ·ñ½áÊø
+    // æ£€æŸ¥æ¸¸æˆæ˜¯å¦ç»“æŸ
     checkGameEnd(): boolean {
-        // ¼ì²éËùÓĞÊĞ³¡ÊÇ·ñ¶¼ÒÑ±»Õ¼Áì
+        // æ£€æŸ¥æ‰€æœ‰å¸‚åœºæ˜¯å¦éƒ½å·²è¢«å é¢†
         const allMarketsConquered = this.markets.every(market => market.isConquered());
         if (allMarketsConquered) {
-            console.log("ËùÓĞÊĞ³¡ÒÑ±»Õ¼Áì£¬ÓÎÏ·½áÊø£¡");
+            console.log("æ‰€æœ‰å¸‚åœºå·²è¢«å é¢†ï¼Œæ¸¸æˆç»“æŸï¼");
             return true;
         }
 
-        // ¼ì²éÊÇ·ñÓĞÍæ¼Ò±»»÷°Ü
+        // æ£€æŸ¥æ˜¯å¦æœ‰ç©å®¶è¢«å‡»è´¥
         const defeatedPlayers = this.players.filter(player => player.isDefeated());
         if (defeatedPlayers.length > 0) {
-            defeatedPlayers.forEach(player => console.log(`${player.name} ±»»÷°ÜÁË`));
-            console.log("ÓÎÏ·½áÊø£¡");
+            defeatedPlayers.forEach(player => console.log(`${player.name} è¢«å‡»è´¥äº†`));
+            console.log("æ¸¸æˆç»“æŸï¼");
             return true;
         }
 
         return false;
     }
 
-    // Æô¶¯ÓÎÏ·
+    // å¯åŠ¨æ¸¸æˆ
     startGame() {
         while (true) {
             this.playTurn();
 
-            // ¼ì²éÓÎÏ·ÊÇ·ñ½áÊø
+            // æ£€æŸ¥æ¸¸æˆæ˜¯å¦ç»“æŸ
             if (this.checkGameEnd()) {
                 break;
             }

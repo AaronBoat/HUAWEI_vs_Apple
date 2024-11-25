@@ -1,29 +1,29 @@
 // src/utils.ts
 
-// Éú³ÉÖ¸¶¨·¶Î§ÄÚµÄËæ»úÕûÊı
+// ç”ŸæˆæŒ‡å®šèŒƒå›´å†…çš„éšæœºæ•´æ•°
 export function getRandomInt(min: number, max: number): number {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// ¼ÆËã°Ù·Ö±È¼¸ÂÊÊÇ·ñ³É¹¦
+// è®¡ç®—ç™¾åˆ†æ¯”å‡ ç‡æ˜¯å¦æˆåŠŸ
 export function isChanceSuccessful(chance: number): boolean {
     return Math.random() * 100 < chance;
 }
 
-// ¸ñÊ½»¯ÈÕÖ¾ĞÅÏ¢
+// æ ¼å¼åŒ–æ—¥å¿—ä¿¡æ¯
 export function formatLogMessage(message: string, type: 'info' | 'warning' | 'error' = 'info'): string {
     const timestamp = new Date().toISOString();
     return `[${timestamp}] [${type.toUpperCase()}] ${message}`;
 }
 
-// ´òÓ¡¸ñÊ½»¯µÄÈÕÖ¾ĞÅÏ¢
+// æ‰“å°æ ¼å¼åŒ–çš„æ—¥å¿—ä¿¡æ¯
 export function logMessage(message: string, type: 'info' | 'warning' | 'error' = 'info') {
     console.log(formatLogMessage(message, type));
 }
 
-// ÑÓ³ÙÖ´ĞĞµÄº¯Êı£¨ÓÃÓÚÄ£ÄâÒì²½ĞĞÎª£©
+// å»¶è¿Ÿæ‰§è¡Œçš„å‡½æ•°ï¼ˆç”¨äºæ¨¡æ‹Ÿå¼‚æ­¥è¡Œä¸ºï¼‰
 export function delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
 }

@@ -3,46 +3,46 @@
 import { Card } from './Card';
 
 export class CardEffect {
-    // ´¦Àí¼áÈÍĞ§¹û
+    // å¤„ç†åšéŸ§æ•ˆæœ
     static handleResilience(card: Card, damage: number): number {
         if (card.hasResilience) {
-            // Èç¹û¿¨ÅÆÓĞ¼áÈÍĞ§¹û£¬Ôò¼õÉÙµÄÓÃ»§Õ³ĞÔ¼õ°ë£¨ÖÁÉÙÎª 1£©
+            // å¦‚æœå¡ç‰Œæœ‰åšéŸ§æ•ˆæœï¼Œåˆ™å‡å°‘çš„ç”¨æˆ·ç²˜æ€§å‡åŠï¼ˆè‡³å°‘ä¸º 1ï¼‰
             const reducedDamage = Math.max(1, Math.floor(damage / 2));
-            console.log(`${card.name} ´¥·¢ÁË¼áÈÍĞ§¹û£¬ÉËº¦¼õ°ëÖÁ ${reducedDamage}`);
+            console.log(`${card.name} è§¦å‘äº†åšéŸ§æ•ˆæœï¼Œä¼¤å®³å‡åŠè‡³ ${reducedDamage}`);
             return reducedDamage;
         }
         return damage;
     }
 
-    // ´¦Àí»¨·ÛÖ§³ÖĞ§¹û
+    // å¤„ç†èŠ±ç²‰æ”¯æŒæ•ˆæœ
     static handlePollenSupport(card: Card) {
         if (card.hasPollenSupport && card.userRetention <= 0) {
-            // µ±ÓÃ»§Õ³ĞÔ½µµ½ 0 Ê±£¬Ê¹ÓÃÎüÒıÁ¦´úÌæÕ³ĞÔ½øĞĞ¿Û³ı
+            // å½“ç”¨æˆ·ç²˜æ€§é™åˆ° 0 æ—¶ï¼Œä½¿ç”¨å¸å¼•åŠ›ä»£æ›¿ç²˜æ€§è¿›è¡Œæ‰£é™¤
             if (card.marketAttraction > 0) {
                 card.marketAttraction = Math.max(0, card.marketAttraction - 1);
-                console.log(`${card.name} ´¥·¢ÁË»¨·ÛÖ§³Ö£¬ÓÃ»§Õ³ĞÔÎª 0£¬ÎüÒıÁ¦¼õÉÙ 1£¬µ±Ç°ÎüÒıÁ¦Îª ${card.marketAttraction}`);
+                console.log(`${card.name} è§¦å‘äº†èŠ±ç²‰æ”¯æŒï¼Œç”¨æˆ·ç²˜æ€§ä¸º 0ï¼Œå¸å¼•åŠ›å‡å°‘ 1ï¼Œå½“å‰å¸å¼•åŠ›ä¸º ${card.marketAttraction}`);
             } else {
-                console.log(`${card.name} µÄÎüÒıÁ¦Ò²½µÎª 0£¬¿¨ÅÆ¼´½«±»ÒÆ³ı`);
+                console.log(`${card.name} çš„å¸å¼•åŠ›ä¹Ÿé™ä¸º 0ï¼Œå¡ç‰Œå³å°†è¢«ç§»é™¤`);
             }
         }
     }
 
-    // ´¦ÀíµÖÓùĞ§¹û
+    // å¤„ç†æŠµå¾¡æ•ˆæœ
     static handleDeflect(card: Card) {
         if (card.hasDeflect && card.userRetention <= 0) {
-            // Èç¹û¿¨ÅÆÓĞµÖÓùĞ§¹û£¬ÓÃ»§Õ³ĞÔÖØÖÃÎª 1£¬²¢ÒÆ³ıµÖÓùĞ§¹û
+            // å¦‚æœå¡ç‰Œæœ‰æŠµå¾¡æ•ˆæœï¼Œç”¨æˆ·ç²˜æ€§é‡ç½®ä¸º 1ï¼Œå¹¶ç§»é™¤æŠµå¾¡æ•ˆæœ
             card.userRetention = 1;
-            card.hasDeflect = false; // µÖÓùĞ§¹ûÖ»ÄÜ´¥·¢Ò»´Î
-            console.log(`${card.name} ´¥·¢ÁËµÖÓùĞ§¹û£¬ÓÃ»§Õ³ĞÔÖØÖÃÎª 1`);
+            card.hasDeflect = false; // æŠµå¾¡æ•ˆæœåªèƒ½è§¦å‘ä¸€æ¬¡
+            console.log(`${card.name} è§¦å‘äº†æŠµå¾¡æ•ˆæœï¼Œç”¨æˆ·ç²˜æ€§é‡ç½®ä¸º 1`);
         }
     }
 
-    // ´¦ÀíËùÓĞ¿¨ÅÆ×´Ì¬¸üĞÂ
+    // å¤„ç†æ‰€æœ‰å¡ç‰ŒçŠ¶æ€æ›´æ–°
     static updateCardStatus(card: Card) {
-        // ´¦Àí»¨·ÛÖ§³ÖĞ§¹û
+        // å¤„ç†èŠ±ç²‰æ”¯æŒæ•ˆæœ
         CardEffect.handlePollenSupport(card);
 
-        // ´¦ÀíµÖÓùĞ§¹û
+        // å¤„ç†æŠµå¾¡æ•ˆæœ
         CardEffect.handleDeflect(card);
     }
 }

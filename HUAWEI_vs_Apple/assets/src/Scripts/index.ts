@@ -6,29 +6,29 @@ import { Card } from './Card';
 import { Game } from './Game';
 import { logMessage } from './utils';
 
-// ³õÊ¼»¯Íæ¼Ò
-const player1 = new Player("Íæ¼Ò1", 20);
-const player2 = new Player("Íæ¼Ò2", 20);
+// åˆå§‹åŒ–ç©å®¶
+const player1 = new Player("ç©å®¶1", 20);
+const player2 = new Player("ç©å®¶2", 20);
 
-// ´´½¨Ò»Ğ©¿¨ÅÆ
+// åˆ›å»ºä¸€äº›å¡ç‰Œ
 const card1 = new Card("iPhone 14 Pro", 5, 4, true, false, false, false);
 const card2 = new Card("Apple Watch", 3, 2);
-const card3 = new Card("»ªÎª Mate 50", 4, 5, false, true);
-const card4 = new Card("»ªÎª P50 Pro", 3, 3, true, false, false, true);
+const card3 = new Card("åä¸º Mate 50", 4, 5, false, true);
+const card4 = new Card("åä¸º P50 Pro", 3, 3, true, false, false, true);
 
-// ½«¿¨ÅÆ¼ÓÈëÍæ¼ÒµÄÊÖÅÆ
+// å°†å¡ç‰ŒåŠ å…¥ç©å®¶çš„æ‰‹ç‰Œ
 player1.hand.push(card1);
 player1.hand.push(card2);
 player2.hand.push(card3);
 player2.hand.push(card4);
 
-// ³õÊ¼»¯ÊĞ³¡
-const market1 = new Market("±±ÃÀÊĞ³¡", 10);
-const market2 = new Market("ÑÇÌ«ÊĞ³¡", 8);
+// åˆå§‹åŒ–å¸‚åœº
+const market1 = new Market("åŒ—ç¾å¸‚åœº", 10);
+const market2 = new Market("äºšå¤ªå¸‚åœº", 8);
 
-// ³õÊ¼»¯ÓÎÏ·
+// åˆå§‹åŒ–æ¸¸æˆ
 const game = new Game([player1, player2], [market1, market2]);
 
-// Æô¶¯ÓÎÏ·
-logMessage("ÓÎÏ·¿ªÊ¼£¡", 'info');
+// å¯åŠ¨æ¸¸æˆ
+logMessage("æ¸¸æˆå¼€å§‹ï¼", 'info');
 game.startGame();

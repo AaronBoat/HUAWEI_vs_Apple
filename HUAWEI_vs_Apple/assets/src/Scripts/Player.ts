@@ -4,9 +4,9 @@ import { Card } from './Card';
 
 export class Player {
     name: string;
-    hand: Card[];       // Íæ¼ÒÊÖÅÆ
-    market: Card[];     // Íæ¼ÒÊĞ³¡ÖĞµÄ¿¨ÅÆ
-    health: number;     // Íæ¼ÒÉúÃüÖµ»òÊĞ³¡¿ØÖÆµãÊı
+    hand: Card[];       // ç©å®¶æ‰‹ç‰Œ
+    market: Card[];     // ç©å®¶å¸‚åœºä¸­çš„å¡ç‰Œ
+    health: number;     // ç©å®¶ç”Ÿå‘½å€¼æˆ–å¸‚åœºæ§åˆ¶ç‚¹æ•°
 
     constructor(name: string, initialHealth: number = 20) {
         this.name = name;
@@ -15,56 +15,56 @@ export class Player {
         this.health = initialHealth;
     }
 
-    // ½«¿¨ÅÆ·ÅÖÃµ½ÊĞ³¡ÖĞ
+    // å°†å¡ç‰Œæ”¾ç½®åˆ°å¸‚åœºä¸­
     playCard(cardIndex: number) {
         if (cardIndex < 0 || cardIndex >= this.hand.length) {
-            console.log("ÎŞĞ§µÄ¿¨ÅÆË÷Òı");
+            console.log("æ— æ•ˆçš„å¡ç‰Œç´¢å¼•");
             return;
         }
         const card = this.hand[cardIndex];
         this.market.push(card);
         this.hand.splice(cardIndex, 1);
-        console.log(`${this.name} ´ò³öÁË¿¨ÅÆ: ${card.toString()}`);
+        console.log(`${this.name} æ‰“å‡ºäº†å¡ç‰Œ: ${card.toString()}`);
     }
 
-    // ´ÓÊÖÅÆÖĞÒÆ³ı¿¨ÅÆ
+    // ä»æ‰‹ç‰Œä¸­ç§»é™¤å¡ç‰Œ
     removeCardFromHand(cardIndex: number) {
         if (cardIndex < 0 || cardIndex >= this.hand.length) {
-            console.log("ÎŞĞ§µÄ¿¨ÅÆË÷Òı");
+            console.log("æ— æ•ˆçš„å¡ç‰Œç´¢å¼•");
             return;
         }
         const removedCard = this.hand.splice(cardIndex, 1)[0];
-        console.log(`${this.name} ´ÓÊÖÅÆÖĞÒÆ³ıÁË¿¨ÅÆ: ${removedCard.toString()}`);
+        console.log(`${this.name} ä»æ‰‹ç‰Œä¸­ç§»é™¤äº†å¡ç‰Œ: ${removedCard.toString()}`);
     }
 
-    // ½«ÆÆ»µµÄ¿¨ÅÆÒÆ³öÊĞ³¡
+    // å°†ç ´åçš„å¡ç‰Œç§»å‡ºå¸‚åœº
     removeDestroyedCards() {
         const initialLength = this.market.length;
         this.market = this.market.filter(card => !card.isDestroyed());
         if (this.market.length < initialLength) {
-            console.log(`${this.name} µÄÒ»Ğ©¿¨ÅÆÒÑ±»ÆÆ»µ²¢ÒÆ³ıÊĞ³¡`);
+            console.log(`${this.name} çš„ä¸€äº›å¡ç‰Œå·²è¢«ç ´åå¹¶ç§»é™¤å¸‚åœº`);
         }
     }
 
-    // ÊÜµ½¹¥»÷Ê±¼õÉÙÉúÃüÖµ
+    // å—åˆ°æ”»å‡»æ—¶å‡å°‘ç”Ÿå‘½å€¼
     reduceHealth(amount: number) {
         this.health = Math.max(0, this.health - amount);
-        console.log(`${this.name} ÊÜµ½ÁË ${amount} µãÉËº¦£¬µ±Ç°ÉúÃüÖµÎª ${this.health}`);
+        console.log(`${this.name} å—åˆ°äº† ${amount} ç‚¹ä¼¤å®³ï¼Œå½“å‰ç”Ÿå‘½å€¼ä¸º ${this.health}`);
     }
 
-    // ÅĞ¶ÏÍæ¼ÒÊÇ·ñÒÑ±»»÷°Ü
+    // åˆ¤æ–­ç©å®¶æ˜¯å¦å·²è¢«å‡»è´¥
     isDefeated(): boolean {
         return this.health <= 0;
     }
 
-    // ³é¿¨µÄ·½·¨
+    // æŠ½å¡çš„æ–¹æ³•
     drawCard(card: Card) {
         this.hand.push(card);
-        console.log(`${this.name} ³éµ½ÁË¿¨ÅÆ: ${card.toString()}`);
+        console.log(`${this.name} æŠ½åˆ°äº†å¡ç‰Œ: ${card.toString()}`);
     }
 
-    // ÏÔÊ¾Íæ¼ÒĞÅÏ¢
+    // æ˜¾ç¤ºç©å®¶ä¿¡æ¯
     toString(): string {
-        return `${this.name} - ÉúÃüÖµ: ${this.health}, ÊÖÅÆÊıÁ¿: ${this.hand.length}, ÊĞ³¡¿¨ÅÆÊıÁ¿: ${this.market.length}`;
+        return `${this.name} - ç”Ÿå‘½å€¼: ${this.health}, æ‰‹ç‰Œæ•°é‡: ${this.hand.length}, å¸‚åœºå¡ç‰Œæ•°é‡: ${this.market.length}`;
     }
 }
